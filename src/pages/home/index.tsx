@@ -1,11 +1,15 @@
-import CoverImage from '../../assets/cover.png'
-import { Content, HomeContainer, SocialIcons, UserBio } from './styles'
+import { Card } from '../../components/Card'
+import {
+  Content,
+  HomeContainer,
+  PostsContainer,
+  SocialIcons,
+  UserBio,
+} from './styles'
 
 export function Home() {
   return (
     <HomeContainer>
-      <img src={CoverImage} alt="Cover" />
-
       <UserBio>
         <img src="https://github.com/andersondev96.png" alt="" />
         <div>
@@ -46,6 +50,13 @@ export function Home() {
           <span>6 publicações</span>
         </div>
         <input type="text" />
+        <PostsContainer>
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </PostsContainer>
       </Content>
     </HomeContainer>
   )

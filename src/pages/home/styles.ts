@@ -4,10 +4,6 @@ export const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  img {
-    width: 100vw;
-  }
 `
 
 export const UserBio = styled.div`
@@ -108,4 +104,12 @@ export const Content = styled.main`
     font-size: 16px;
     color: ${(props) => props.theme['base-text']};
   }
+`
+
+export const PostsContainer = styled.section`
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 32px;
+  grid-row-gap: 32px;
 `
