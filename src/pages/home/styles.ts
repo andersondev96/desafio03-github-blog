@@ -6,6 +6,11 @@ export const HomeContainer = styled.div`
   align-items: center;
 `
 
+export const Loading = styled.div`
+  margin-top: 24px;
+  text-align: center;
+`
+
 export const UserBio = styled.div`
   width: 864px;
   margin-top: -64px;
