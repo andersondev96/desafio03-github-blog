@@ -97,7 +97,12 @@ export const Content = styled.main`
     }
   }
 
+  form {
+    display: flex;
+  }
+
   input {
+    width: 100vw;
     margin-top: 12px;
     padding: 16px 12px 12px 12px;
     border: 1px solid ${(props) => props.theme['base-border']};

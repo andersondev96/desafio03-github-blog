@@ -1,4 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { Card } from '../../components/Card'
 import { api } from '../../lib/axios'
 import {
@@ -20,9 +23,53 @@ interface UserProps {
   name: string
 }
 
+export interface IssuesProps {
+  id: string
+  number: string
+  title: string
+  body: string | null
+  created_at: string
+}
+
+const issueFormParamsFormSchema = z.object({
+  search: z.string(),
+})
+
+type IssueSearchFormInput = z.infer<typeof issueFormParamsFormSchema>
+
 export function Home() {
   const [user, setUser] = useState<UserProps>()
+  const [issues, setIssues] = useState<IssuesProps[]>([])
+  const [searchText, setSearchText] = useState(() => {
+    const url = new URL(window.location.toString())
+
+    if (url.searchParams.has('search')) {
+      return url.searchParams.get('search') ?? ''
+    }
+
+    return ''
+  })
+
   const [loading, setLoading] = useState(true)
+
+  const { register, handleSubmit } = useForm<IssueSearchFormInput>({
+    resolver: zodResolver(issueFormParamsFormSchema),
+  })
+
+  const handleSearchIssues = useCallback(
+    async (data: IssueSearchFormInput) => {
+      const { search } = data
+
+      const url = new URL(window.location.toString())
+
+      setSearchText(search)
+
+      url.searchParams.set('search', searchText)
+
+      window.history.pushState({}, '', url)
+    },
+    [searchText],
+  )
 
   const fetchUser = useCallback(async () => {
     try {
@@ -38,9 +85,18 @@ export function Home() {
     }
   }, [])
 
+  const fetchIssues = useCallback(async () => {
+    const response = await api.get(
+      `/search/issues?q=${searchText}%20repo:rocketseat-education/reactjs-github-blog-challenge`,
+    )
+
+    setIssues(response.data.items)
+  }, [searchText])
+
   useEffect(() => {
     fetchUser()
-  }, [fetchUser])
+    fetchIssues()
+  }, [fetchUser, fetchIssues])
 
   return (
     <HomeContainer>
@@ -84,13 +140,18 @@ export function Home() {
           <h2>Publicações</h2>
           <span>6 publicações</span>
         </div>
-        <input type="text" />
+        <form onSubmit={handleSubmit(handleSearchIssues)}>
+          <input
+            type="text"
+            placeholder="Buscar conteúdo"
+            required
+            {...register('search')}
+          />
+        </form>
         <PostsContainer>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {issues.map((issue) => {
+            return <Card key={issue.id} card={issue} />
+          })}
         </PostsContainer>
       </Content>
     </HomeContainer>
