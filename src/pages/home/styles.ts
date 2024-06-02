@@ -35,6 +35,9 @@ export const UserBio = styled.div`
     justify-content: space-between;
 
     a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       text-decoration: none;
       font-weight: 700;
       font-size: 12px;
@@ -65,6 +68,9 @@ export const SocialIcons = styled.div`
   gap: 24px;
 
   a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     text-decoration: none;
     font-weight: 400;
     font-size: 16px;
@@ -74,7 +80,7 @@ export const SocialIcons = styled.div`
 
 export const Content = styled.main`
   width: 864px;
-  margin-top: 72px;
+  margin: 72px;
 
   display: flex;
   flex-direction: column;

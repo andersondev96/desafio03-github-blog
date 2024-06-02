@@ -23,6 +23,9 @@ export const TitlePost = styled.section`
     justify-content: space-between;
 
     a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-weight: 700;
       font-size: 12px;
       text-transform: uppercase;
@@ -44,6 +47,9 @@ export const InfosPost = styled.section`
   gap: 32px;
 
   span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-weight: 400;
     font-weight: 16px;
     color: ${(props) => props.theme['base-span']};

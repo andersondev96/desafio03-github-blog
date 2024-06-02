@@ -1,3 +1,11 @@
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import {
+  faArrowUpRightFromSquare,
+  faBuilding,
+  faUserGroup,
+} from '@fortawesome/free-solid-svg-icons'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -110,24 +118,24 @@ export function Home() {
               <h1>{user.name}</h1>
               <a href={user?.html_url} target="_blank" rel="noreferrer">
                 Github
-                <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
               </a>
             </div>
             <p>{user.bio}</p>
 
             <SocialIcons>
               <a href={user.html_url} target="_blank" rel="noreferrer">
-                <i className="fa-brands fa-github"></i>
+                <FontAwesomeIcon icon={faGithub} />
                 <span>{user.login}</span>
               </a>
 
               <a href="">
-                <i className="fa-solid fa-building"></i>
+                <FontAwesomeIcon icon={faBuilding} />
                 <span>{user.company}</span>
               </a>
 
               <a href="">
-                <i className="fa-solid fa-user-group"></i>
+                <FontAwesomeIcon icon={faUserGroup} />
                 <span>{user.followers} seguidores </span>
               </a>
             </SocialIcons>
@@ -138,13 +146,12 @@ export function Home() {
       <Content>
         <div>
           <h2>Publicações</h2>
-          <span>6 publicações</span>
+          <span>{issues.length} publicações</span>
         </div>
         <form onSubmit={handleSubmit(handleSearchIssues)}>
           <input
             type="text"
             placeholder="Buscar conteúdo"
-            required
             {...register('search')}
           />
         </form>

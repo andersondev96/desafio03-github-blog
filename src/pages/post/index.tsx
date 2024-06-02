@@ -1,34 +1,88 @@
-import { Link } from 'react-router-dom'
+import {
+  faArrowUpRightFromSquare,
+  faCalendar,
+  faChevronLeft,
+  faComment,
+} from '@fortawesome/free-solid-svg-icons'
+
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
+import { useCallback, useEffect, useState } from 'react'
+import Markdown from 'react-markdown'
+import { Link, useParams } from 'react-router-dom'
+import remarkGfm from 'remark-gfm'
+import { api } from '../../lib/axios'
 import { Content, InfosPost, PostContainer, TitlePost } from './styles'
 
+interface Post {
+  id: string
+  number: string
+  title: string
+  body: string | null
+  comments: number
+  created_at: string
+  html_url: string
+  user: {
+    login: string
+  }
+}
+
 export function Post() {
-  return (
+  const [post, setPost] = useState<Post>()
+
+  const { number } = useParams()
+
+  const fetchPost = useCallback(async () => {
+    const response = await api.get(
+      `repos/rocketseat-education/reactjs-github-blog-challenge/issues/${number}`,
+    )
+
+    setPost(response.data)
+  }, [number])
+
+  useEffect(() => {
+    fetchPost()
+  }, [fetchPost])
+
+  return !post ? (
+    <h1>Carregando</h1>
+  ) : (
     <PostContainer>
       <TitlePost>
         <div>
-          <Link to="/">Voltar</Link>
+          <Link to="/">
+            <FontAwesomeIcon icon={faChevronLeft} />
+            Voltar
+          </Link>
 
-          <a href="#">Ver no Github</a>
+          <a href={post.html_url} target="_blank" rel="noreferrer">
+            Ver no Github
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+          </a>
         </div>
-        <h2>JavaScript data types and data structures</h2>
+        <h2>{post.title}</h2>
         <InfosPost>
-          <span>cameronwll</span>
-          <span>Há 1 dia</span>
-          <span>5 comentários</span>
+          <span>
+            <FontAwesomeIcon icon={faGithub} />
+            {post.user.login}
+          </span>
+          <span>
+            <FontAwesomeIcon icon={faCalendar} />
+            {formatDistanceToNow(new Date(post.created_at), {
+              addSuffix: true,
+              locale: ptBR,
+            })}
+          </span>
+          <span>
+            <FontAwesomeIcon icon={faComment} />
+            {post.comments} {post.comments <= 1 ? 'comentário' : 'comentários'}
+          </span>
         </InfosPost>
       </TitlePost>
       <Content>
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn. Dynamic typing JavaScript is a loosely typed and dynamic
-          language. Variables in JavaScript are not directly associated with any
-          particular value type, and any variable can be assigned (and
-          re-assigned) values of all types:
-        </p>
+        <Markdown remarkPlugins={[remarkGfm]}>{post.body}</Markdown>
       </Content>
     </PostContainer>
   )
