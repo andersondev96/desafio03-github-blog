@@ -12,7 +12,6 @@ import { ptBR } from 'date-fns/locale/pt-BR'
 import { useCallback, useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
 import { Link, useParams } from 'react-router-dom'
-import remarkGfm from 'remark-gfm'
 import { api } from '../../lib/axios'
 import { Content, InfosPost, PostContainer, TitlePost } from './styles'
 
@@ -82,7 +81,15 @@ export function Post() {
         </InfosPost>
       </TitlePost>
       <Content>
-        <Markdown remarkPlugins={[remarkGfm]}>{post.body}</Markdown>
+        <Markdown
+          components={{
+            a: ({ node, ...props }) => (
+              <a {...props} target="_blank" className="markdown-a" />
+            ),
+          }}
+        >
+          {post.body}
+        </Markdown>
       </Content>
     </PostContainer>
   )

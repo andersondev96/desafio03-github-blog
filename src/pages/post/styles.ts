@@ -62,8 +62,25 @@ export const Content = styled.section`
   width: 800px;
 
   p {
+    font-family: 'Nunito', sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: ${(props) => props.theme['base-text']};
+    margin-bottom: 16px;
+  }
+
+  a {
+    color: ${(props) => props.theme.blue};
+  }
+
+  img {
+    margin-top: 24px;
+    width: 100%;
+  }
+
+  .markdown-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 `

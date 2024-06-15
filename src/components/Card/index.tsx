@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
+import Markdown from 'react-markdown'
 import { IssuesProps } from '../../pages/home'
 import { CardContainer } from './styles'
 
@@ -20,7 +21,7 @@ export function Card({ card: { number, title, body, created_at } }: CardProps) {
           })}
         </span>
       </div>
-      <p>{body}</p>
+      <Markdown>{body}</Markdown>
     </CardContainer>
   )
 }

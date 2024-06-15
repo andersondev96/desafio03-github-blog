@@ -64,20 +64,17 @@ export function Home() {
     resolver: zodResolver(issueFormParamsFormSchema),
   })
 
-  const handleSearchIssues = useCallback(
-    async (data: IssueSearchFormInput) => {
-      const { search } = data
+  const handleSearchIssues = useCallback(async (data: IssueSearchFormInput) => {
+    const { search } = data
 
-      const url = new URL(window.location.toString())
+    const url = new URL(window.location.toString())
 
-      setSearchText(search)
+    setSearchText(search)
 
-      url.searchParams.set('search', searchText)
+    url.searchParams.set('search', search)
 
-      window.history.pushState({}, '', url)
-    },
-    [searchText],
-  )
+    window.history.pushState({}, '', url)
+  }, [])
 
   const fetchUser = useCallback(async () => {
     try {

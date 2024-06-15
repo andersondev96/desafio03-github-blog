@@ -4,7 +4,7 @@ export const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  img {
-    width: 100vw;
+  > img {
+    width: 100%;
   }
 `
